@@ -14,16 +14,22 @@ class OpCode(IntEnum):
 
 
 class Intcode:
-    def __init__(self, program):
-        self.program = program
-        self.memory = {}
-        self.relative_base = 0
-        self.pc = 0
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename) as f:
+            program = [int(n) for n in f.readline().split(",")]
+            return cls(program)
 
     @staticmethod
     def parse_modes(instruction):
         instruction = "0" * (5 - len(instruction)) + instruction
         return [int(instruction[2]), int(instruction[1]), int(instruction[0])]
+
+    def __init__(self, program):
+        self.program = program
+        self.memory = {}
+        self.relative_base = 0
+        self.pc = 0
 
     def store(self, mode, pos, val):
         try:
