@@ -1,6 +1,12 @@
 from enum import IntEnum
 
 
+def load_program_from_file(filename):
+    with open(filename) as f:
+        program = [int(n) for n in f.readline().split(",")]
+    return program
+
+
 class OpCode(IntEnum):
     ADD = 1
     MULT = 2
@@ -16,9 +22,7 @@ class OpCode(IntEnum):
 class Intcode:
     @classmethod
     def from_file(cls, filename):
-        with open(filename) as f:
-            program = [int(n) for n in f.readline().split(",")]
-            return cls(program)
+        return cls(load_program_from_file(filename))
 
     @staticmethod
     def parse_modes(instruction):
@@ -26,7 +30,7 @@ class Intcode:
         return [int(instruction[2]), int(instruction[1]), int(instruction[0])]
 
     def __init__(self, program):
-        self.program = program
+        self.program = program.copy()
         self.memory = {}
         self.relative_base = 0
         self.pc = 0
