@@ -3,9 +3,10 @@ from queue import Queue
 from threading import Thread
 
 from intcode import Intcode, load_program_from_file
+from utils import get_absolute_path
 
 INFINITY = 1e10
-INPUT = "/home/esteban/training/advent_of_code/repo/day15.input"
+INPUT = get_absolute_path("day15.input")
 
 
 # For debugging
